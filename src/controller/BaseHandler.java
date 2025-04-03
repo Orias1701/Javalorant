@@ -2,6 +2,7 @@ package controller;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
@@ -9,15 +10,29 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Base64;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class BaseHandler implements HttpHandler {
+    
+    protected static final String ACCOUNTS_DB_URL;
+    protected static final String ORDERS_DB_URL;
+    protected static final String DB_USERNAME;
+    protected static final String DB_PASSWORD;
 
-    protected static final String ACCOUNTS_DB_URL = "jdbc:mysql://127.0.0.1:3306/accounts";
-    protected static final String ORDERS_DB_URL = "jdbc:mysql://127.0.0.1:3306/accounts";
-    protected static final String DB_USERNAME = "root";
-    protected static final String DB_PASSWORD = "035800";
+    static {
+        Properties props = new Properties();
+        try (FileInputStream fis = new FileInputStream("config.properties")) {
+            props.load(fis);
+            ACCOUNTS_DB_URL = props.getProperty("accounts.db.url");
+            ORDERS_DB_URL = props.getProperty("orders.db.url");
+            DB_USERNAME = props.getProperty("db.username");
+            DB_PASSWORD = props.getProperty("db.password");
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load config.properties: " + e.getMessage());
+        }
+    }
 
     protected boolean authenticate(HttpExchange exchange) throws IOException {
         String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
@@ -56,6 +71,7 @@ public abstract class BaseHandler implements HttpHandler {
         try (OutputStream os = exchange.getResponseBody()) {
             os.write(responseBytes);
             os.flush();
+            os.close();
         }
     }
 }

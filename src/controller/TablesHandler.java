@@ -10,21 +10,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TablesHandler extends BaseHandler {
+    private static final Logger LOGGER = Logger.getLogger(TablesHandler.class.getName());
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if (!"GET".equals(exchange.getRequestMethod())) {
             sendResponse(exchange, 405, "Method Not Allowed");
             return;
         }
+        if (!authenticate(exchange)) return;
 
-        if (!authenticate(exchange)) {
-            return;
-        }
+        String schema = extractSchemaFromUrl(ORDERS_DB_URL);
 
         try (Connection conn = DriverManager.getConnection(ORDERS_DB_URL, DB_USERNAME, DB_PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(
                  "SELECT TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES " +
-                 "WHERE TABLE_SCHEMA = 'orders' AND TABLE_TYPE = 'BASE TABLE'")) {
+                 "WHERE TABLE_SCHEMA = ? AND TABLE_TYPE = 'BASE TABLE'")) {
+            stmt.setString(1, schema);
             ResultSet rs = stmt.executeQuery();
             StringBuilder json = new StringBuilder("[");
             boolean first = true;
@@ -39,8 +41,14 @@ public class TablesHandler extends BaseHandler {
             json.append("]");
             sendResponse(exchange, 200, json.toString());
         } catch (Exception e) {
-            Logger.getLogger(BaseHandler.class.getName()).log(Level.SEVERE, "Server error", e);
+            LOGGER.log(Level.SEVERE, "Server error", e);
             sendResponse(exchange, 500, "Server error: " + e.getMessage());
         }
+    }
+
+    private String extractSchemaFromUrl(String url) {
+        if (url == null || !url.contains("/")) return "ql_khachsan";
+        String[] parts = url.split("/");
+        return parts[parts.length - 1].split("\\?")[0];
     }
 }

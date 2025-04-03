@@ -59,26 +59,26 @@ public class InputPanel extends JPanel {
 
 
 
-        if (columnNames.length > 6) {
-            for (int i = 0; i < columnNames.length; i++) {
-                String column = columnNames[i];
-                int colOffset = (i < columnNames.length / 2) ? 0 : 2;
-                int row = (i < columnNames.length / 2) ? i : i - (columnNames.length / 2);
+        // if (columnNames.length > 6) {
+        //     for (int i = 0; i < columnNames.length; i++) {
+        //         String column = columnNames[i];
+        //         int colOffset = (i < columnNames.length / 2) ? 0 : 2;
+        //         int row = (i < columnNames.length / 2) ? i : i - (columnNames.length / 2);
 
-                gbc.gridx = colOffset;
-                gbc.gridy = row;
-                JLabel label = new JLabel(column + ":");
-                label.setPreferredSize(new Dimension(100, 40));
-                inputPanel.add(label, gbc);
+        //         gbc.gridx = colOffset;
+        //         gbc.gridy = row;
+        //         JLabel label = new JLabel(column + ":");
+        //         label.setPreferredSize(new Dimension(100, 40));
+        //         inputPanel.add(label, gbc);
 
-                gbc.gridx = colOffset + 1;
-                JTextField field = new JTextField(30);
-                field.setPreferredSize(new Dimension(300, 40));
-                field.setBorder(new CompoundBorder(outerBorder, padding));
-                inputPanel.add(field, gbc);
-                inputFields.put(column, field);
-            }
-        } else {
+        //         gbc.gridx = colOffset + 1;
+        //         JTextField field = new JTextField(30);
+        //         field.setPreferredSize(new Dimension(300, 40));
+        //         field.setBorder(new CompoundBorder(outerBorder, padding));
+        //         inputPanel.add(field, gbc);
+        //         inputFields.put(column, field);
+        //     }
+        // } else {
             for (int i = 0; i < columnNames.length; i++) {
                 String column = columnNames[i];
                 gbc.gridx = 0;
@@ -94,7 +94,7 @@ public class InputPanel extends JPanel {
                 inputPanel.add(field, gbc);
                 inputFields.put(column, field);
             }
-        }
+        // }
 
         int selectedRow = table.getSelectedRow();
         if (selectedRow >= 0) {
