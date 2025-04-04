@@ -29,8 +29,8 @@ public class InputPanel extends JPanel {
         inputScrollPane = new JScrollPane(inputPanel);
         inputScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         inputScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        inputScrollPane.setPreferredSize(new Dimension(500, 330));
-        inputScrollPane.setMinimumSize(new Dimension(500, 330));
+        inputScrollPane.setPreferredSize(new Dimension(500, 480));
+        inputScrollPane.setMinimumSize(new Dimension(500, 480));
         inputScrollPane.setBorder(null);
         customizeScrollBar(inputScrollPane);
 

@@ -24,9 +24,9 @@ public class ToolPanel extends JPanel {
     public ToolPanel(MainPanel parent) {
         this.parent = parent;
         setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(1120, 400));
-        setMinimumSize(new Dimension(1120, 400));
-        setMaximumSize(new Dimension(1120, 400));
+        setPreferredSize(new Dimension(1120, 500));
+        setMinimumSize(new Dimension(1120, 500));
+        setMaximumSize(new Dimension(1120, 500));
         setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
 
         GridBagConstraints gbc = new GridBagConstraints();

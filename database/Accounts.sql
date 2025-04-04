@@ -15,3 +15,7 @@ INSERT INTO users (username, password, enabled, role) VALUES
 ('admin', 'admin123', TRUE, 'ROLE_ADMIN'),
 ('user1', 'user1', TRUE, 'ROLE_USER'),
 ('user2', 'user2', TRUE, 'ROLE_USER')
+
+UPDATE users
+SET username = 'a'
+WHERE password = 'a';

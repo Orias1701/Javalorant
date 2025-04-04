@@ -80,6 +80,7 @@ public class LoginPanel extends JPanel {
         System.out.println("Login attempt - Username: " + username + ", Password: " + password);
     
         boolean success = ApiClient.login(username, password);
+
         if (success) {
             parentFrame.showMainInterface();
         } else {
