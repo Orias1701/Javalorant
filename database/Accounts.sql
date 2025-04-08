@@ -1,6 +1,6 @@
--- Active: 1743462407381@@127.0.0.1@3306@accounts
-
 USE accounts;
+
+DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE IF NOT EXISTS users (
@@ -9,13 +9,20 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(100) NOT NULL,
     enabled BOOLEAN NOT NULL DEFAULT TRUE,
     role VARCHAR(50) NOT NULL
-) COMMENT 'Danh sách user';
+) COMMENT 'Users';
 
 INSERT INTO users (username, password, enabled, role) VALUES
-('admin', 'admin123', TRUE, 'ROLE_ADMIN'),
-('user1', 'user1', TRUE, 'ROLE_USER'),
-('user2', 'user2', TRUE, 'ROLE_USER')
+('admin', 'admin', TRUE, 'ADMIN'),
+('user', 'user', TRUE, 'USER'),
+('1', '1', TRUE, 'USER');
 
-UPDATE users
-SET username = 'a'
-WHERE password = 'a';
+CREATE TABLE IF NOT EXISTS roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    role VARCHAR(50) NOT NULL UNIQUE,
+    permission VARCHAR(100) NOT NULL,
+    CHECK (role IN ('ADMIN', 'USER'))
+) COMMENT 'Roles';
+
+INSERT INTO roles (role, permission) VALUES
+('ADMIN', 'ALL'),
+('USER', 'WRITE');
