@@ -65,10 +65,20 @@ public class ApiClient {
         }
     }
 
-    public static List<Map<String, String>> getTableData(String tableName) {
+    public static class TableDataResult {
+        public final List<Map<String, String>> data;
+        public final Map<String, String> columnComments;
+
+        public TableDataResult(List<Map<String, String>> data, Map<String, String> columnComments) {
+            this.data = data;
+            this.columnComments = columnComments;
+        }
+    }
+
+    public static TableDataResult getTableData(String tableName) {
         if (tableName == null || tableName.isEmpty()) {
             System.err.println("Error: tableName is null or empty");
-            return new ArrayList<>();
+            return new TableDataResult(new ArrayList<>(), new HashMap<>());
         }
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -82,13 +92,15 @@ public class ApiClient {
             System.out.println("Table data status: " + response.statusCode());
             System.out.println("Table data body: " + response.body());
             if (response.statusCode() == 200) {
-                return parseTableData(response.body());
+                return parseTableDataWithColumns(response.body());
             } else {
-                throw new IOException("API returned " + response.statusCode());
+                System.err.println("API error for table " + tableName + ": Status " + response.statusCode());
+                return new TableDataResult(new ArrayList<>(), new HashMap<>());
             }
         } catch (IOException | InterruptedException e) {
-            System.err.println("Error fetching table data: " + e.getMessage());
-            return new ArrayList<>();
+            System.err.println("Error fetching table data for " + tableName + ": " + e.getMessage());
+            e.printStackTrace();
+            return new TableDataResult(new ArrayList<>(), new HashMap<>());
         }
     }
 
@@ -115,33 +127,101 @@ public class ApiClient {
         return tableInfo;
     }
 
-    private static List<Map<String, String>> parseTableData(String json) {
-        List<Map<String, String>> tableData = new ArrayList<>();
-        json = json.substring(1, json.length() - 1);
-        if (json.isEmpty()) return tableData;
+    private static TableDataResult parseTableDataWithColumns(String json) {
+        List<Map<String, String>> data = new ArrayList<>();
+        Map<String, String> columnComments = new HashMap<>();
 
-        String[] rows = json.split("},");
-        for (String row : rows) {
-            row = row.replace("{", "").replace("}", "").trim();
-            String[] keyValuePairs = row.split(",");
-            Map<String, String> rowData = new HashMap<>();
-            for (String pair : keyValuePairs) {
-                String[] parts = pair.split(":");
-                String key = parts[0].replace("\"", "").trim();
-                String value = parts[1].replace("\"", "").trim();
-                rowData.put(key, value);
+        // Phân tích JSON thủ công
+        try {
+            // Loại bỏ dấu ngoặc ngoài
+            json = json.trim();
+            if (!json.startsWith("{") || !json.endsWith("}")) {
+                return new TableDataResult(data, columnComments);
             }
-            tableData.add(rowData);
+            json = json.substring(1, json.length() - 1);
+
+            // Tách columns và data
+            String[] parts = json.split(",\"data\":");
+            if (parts.length != 2) {
+                return new TableDataResult(data, columnComments);
+            }
+
+            // Phân tích columns
+            String columnsJson = parts[0].replace("\"columns\":", "").trim();
+            columnsJson = columnsJson.substring(1, columnsJson.length() - 1);
+            if (!columnsJson.isEmpty()) {
+                String[] columnEntries = columnsJson.split("},");
+                for (String entry : columnEntries) {
+                    entry = entry.replace("{", "").replace("}", "").trim();
+                    String[] keyValuePairs = entry.split(",");
+                    String name = "";
+                    String comment = "";
+                    for (String pair : keyValuePairs) {
+                        String[] kv = pair.split(":");
+                        String key = kv[0].replace("\"", "").trim();
+                        String value = kv[1].replace("\"", "").trim();
+                        if ("name".equals(key)) name = value;
+                        if ("comment".equals(key)) comment = value;
+                    }
+                    columnComments.put(name, comment);
+                }
+            }
+
+            // Phân tích data
+            String dataJson = parts[1].substring(1, parts[1].length() - 1);
+            if (!dataJson.isEmpty()) {
+                String[] rows = dataJson.split("},");
+                for (String row : rows) {
+                    row = row.replace("{", "").replace("}", "").trim();
+                    String[] keyValuePairs = row.split(",");
+                    Map<String, String> rowData = new HashMap<>();
+                    for (String pair : keyValuePairs) {
+                        String[] kv = pair.split(":");
+                        String key = kv[0].replace("\"", "").trim();
+                        String value = kv[1].replace("\"", "").trim();
+                        rowData.put(key, value);
+                    }
+                    data.add(rowData);
+                }
+            }
+
+            return new TableDataResult(data, columnComments);
+        } catch (Exception e) {
+            System.err.println("Error parsing table data: " + e.getMessage());
+            e.printStackTrace();
+            return new TableDataResult(data, columnComments);
         }
-        return tableData;
     }
-   
+
+    // private static List<Map<String, String>> parseTableData(String json) {
+    //     List<Map<String, String>> tableData = new ArrayList<>();
+    //     json = json.substring(1, json.length() - 1);
+    //     if (json.isEmpty()) return tableData;
+
+    //     String[] rows = json.split("},");
+    //     for (String row : rows) {
+    //         row = row.replace("{", "").replace("}", "").trim();
+    //         String[] keyValuePairs = row.split(",");
+    //         Map<String, String> rowData = new HashMap<>();
+    //         for (String pair : keyValuePairs) {
+    //             String[] parts = pair.split(":");
+    //             String key = parts[0].replace("\"", "").trim();
+    //             String value = parts[1].replace("\"", "").trim();
+    //             rowData.put(key, value);
+    //         }
+    //         tableData.add(rowData);
+    //     }
+    //     return tableData;
+    // }
+
     public static void addRow(String tableName, Map<String, Object> data) {
         System.out.println("Adding row to table: " + tableName);
     }
+
     public static void updateRow(String tableName, String columnName, Object idValue, Map<String, Object> data) {
         System.out.println("Updating row in table: " + tableName);
     }
+
     public static void deleteRow(String tableName, String columnName, Object idValue) {
         System.out.println("Deleting row from table: " + tableName);
     }

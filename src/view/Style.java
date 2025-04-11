@@ -2,10 +2,14 @@ package view;
 
 import java.awt.*;
 
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+
 public class Style {
     // Color
     public static final Color LIGHT_CL = Color.WHITE;
     public static final Color DARK_CL = Color.BLACK;
+    public static final Color GRAY_CL = Color.decode("#444444");
     public static final Color MAIN_CL = Color.decode("#9E88FF");
     public static final Color SEC_CL = Color.decode("#D7CEFF");
     public static final Color TRD_CL = Color.decode("#7C68D4");
@@ -34,4 +38,7 @@ public class Style {
     public static final int MENU_TOP_PADDING = 20;
     public static final int MENU_BOTTOM_PADDING = 10;
     public static final int BUTTON_SPACING = 7;
+
+    // Border
+    public static final Border BORDER_L20 = BorderFactory.createEmptyBorder(0, 20, 0, 0);
 }

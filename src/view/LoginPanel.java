@@ -38,6 +38,7 @@ public class LoginPanel extends JPanel {
 
         JLabel usernameLabel = new JLabel("Tên người dùng:");
         usernameLabel.setFont(Style.HEADER_16);
+        usernameLabel.setForeground(Style.MAIN_CL);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -51,6 +52,7 @@ public class LoginPanel extends JPanel {
 
         JLabel passwordLabel = new JLabel("Mật khẩu:");
         passwordLabel.setFont(Style.HEADER_16);
+        passwordLabel.setForeground(Style.MAIN_CL);
         gbc.gridx = 0;
         gbc.gridy = 2;
         add(passwordLabel, gbc);
@@ -85,7 +87,7 @@ public class LoginPanel extends JPanel {
         if (success) {
             parentFrame.showMainInterface();
         } else {
-            JOptionPane.showMessageDialog(this, "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.", 
+            JOptionPane.showMessageDialog(this, "Tài khoản hoặc mật khẩu không đúng",
                 "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }

@@ -39,12 +39,12 @@ public class MenuPanel extends JPanel {
         int y = 20;
 
         // Home button
-        MenuButton homeButton = createMenuButton("HOME", y);
-        homeButton.setFont(homeButton.getFont().deriveFont(14f));
-        homeButton.setForeground(Style.BUTTON_CL);
+        MenuButton homeButton = createMenuButton("TRANG CHỦ", y);
+        homeButton.setFont(Style.HEADER_16);    
+        homeButton.setForeground(Style.LIGHT_CL);
         homeButton.putClientProperty("tableName", "HOME");
         homeButton.setBounds(0, y, 240, 60);
-        homeButton.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        homeButton.setBorder(Style.BORDER_L20);
         homeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         activeButton = homeButton;
         currentTableName = "HOME";
@@ -70,7 +70,9 @@ public class MenuPanel extends JPanel {
     private MenuButton createMenuButton(String text, int y) {
         MenuButton button = new MenuButton(text);
         button.setBounds(0, y, 240, 60);
-        button.setBackground(new Color(0, 0, 0, 0));
+        button.setFont(Style.HEADER_16);    
+        button.setForeground(Style.GRAY_CL);
+        button.setBackground(Style.NO_CL);
         button.setBorder(BorderFactory.createEmptyBorder());
         button.setHorizontalAlignment(SwingConstants.LEFT);
         button.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
@@ -89,7 +91,8 @@ public class MenuPanel extends JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent e) {
                 if (!button.isActive()) {
-                    button.setBackground(new Color(0, 0, 0, 0));
+                    button.setBackground(Style.NO_CL);
+                    button.setForeground(Style.GRAY_CL);
                     button.repaint();
                 }
             }
@@ -102,12 +105,14 @@ public class MenuPanel extends JPanel {
     private void moveHighlightTo(MenuButton targetButton) {
         if (activeButton != null) {
             activeButton.setActive(false);
-            activeButton.setBackground(new Color(0, 0, 0, 0));
+            activeButton.setBackground(Style.NO_CL);
+            activeButton.setForeground(Style.GRAY_CL);
             activeButton.repaint();
         }
         activeButton = targetButton;
         activeButton.setActive(true);
-        activeButton.setBackground(new Color(0, 0, 0, 0));
+        activeButton.setBackground(Style.NO_CL);
+        activeButton.setForeground(Style.LIGHT_CL);
         currentTableName = (String) activeButton.getClientProperty("tableName");
         System.out.println("Table name: " + currentTableName);
         if (tableSelectionListener != null && !"HOME".equals(currentTableName)) {
