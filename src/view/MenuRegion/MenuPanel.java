@@ -25,9 +25,7 @@ public class MenuPanel extends JPanel {
         setLayout(null);
         setOpaque(false);
         setPreferredSize(new Dimension(240, 720));
-
         animationTimer = new Timer(10, e -> animateHighlight());
-
         int y = 20;
 
         // HOME BUTTON
@@ -36,6 +34,8 @@ public class MenuPanel extends JPanel {
         homeButton.setForeground(Style.BUTTON_CL);
         homeButton.putClientProperty("tableName", "HOME");
         homeButton.setBounds(0, y, 240, 60);
+        homeButton.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        homeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         activeButton = homeButton;
         highlightRect.setLocation(0, homeButton.getY());
         add(homeButton);
@@ -60,11 +60,12 @@ public class MenuPanel extends JPanel {
         button.setBounds(0, y, 240, 60);
         button.setBackground(new Color(0, 0, 0, 0));
         button.setBorder(BorderFactory.createEmptyBorder());
-
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        button.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         button.addActionListener(e -> {
             moveHighlightTo(button);
         });
-
+    
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent e) {
@@ -73,7 +74,6 @@ public class MenuPanel extends JPanel {
                     button.repaint();
                 }
             }
-
             @Override
             public void mouseExited(java.awt.event.MouseEvent e) {
                 if (!button.isActive()) {
@@ -82,9 +82,10 @@ public class MenuPanel extends JPanel {
                 }
             }
         });
-
+    
         return button;
     }
+    
 
     private void moveHighlightTo(MenuButton targetButton) {
         if (activeButton != null) {
@@ -100,10 +101,8 @@ public class MenuPanel extends JPanel {
 
     private void animateHighlight() {
         if (activeButton == null) return;
-    
         int targetY = activeButton.getY();
         int dy = targetY - highlightRect.y;
-    
         if (Math.abs(dy) <= 1) {
             highlightRect.y = targetY;
             animationTimer.stop();
@@ -112,7 +111,6 @@ public class MenuPanel extends JPanel {
             if (step == 0) step = (dy > 0) ? 1 : -1;
             highlightRect.y += step;
         }
-    
         repaint();
     }
 
@@ -120,17 +118,14 @@ public class MenuPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
-
         GradientPaint gradient = new GradientPaint(
             0, 0, new Color(0xFB, 0xFA, 0xFC),
             0, getHeight(), new Color(0x8E, 0x84, 0xB9)
         );
         g2d.setPaint(gradient);
         g2d.fillRect(0, 0, getWidth(), getHeight());
-
         g2d.setColor(Style.MAIN_CL);
-        g2d.fillRoundRect(highlightRect.x, highlightRect.y, highlightRect.width, highlightRect.height, 20, 20);
-
+        g2d.fillRoundRect(highlightRect.x, highlightRect.y, highlightRect.width, highlightRect.height, 0, 10);
         g2d.dispose();
     }
 }

@@ -33,7 +33,7 @@ public class MenuButton extends JButton {
         
         if (getModel().isRollover() || isActive) {
             g2.setColor(getBackground());
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 0, 0);
         }
 
         g2.dispose();
