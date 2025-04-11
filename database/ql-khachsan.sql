@@ -177,7 +177,7 @@ UNLOCK TABLES;
 
 ALTER TABLE `chitietphieusddv` COMMENT = 'CHI TIẾT';
 ALTER TABLE `dichvu` COMMENT = 'DỊCH VỤ';
-ALTER TABLE `hoadon` COMMENT = 'HÓA ĐƠNĐƠN';
+ALTER TABLE `hoadon` COMMENT = 'HÓA ĐƠN';
 ALTER TABLE `khachhang` COMMENT = 'KHÁCH HÀNG';
 ALTER TABLE `loaiphong` COMMENT = 'LOẠI PHÒNG';
 ALTER TABLE `nhanvien` COMMENT = 'NHÂN VIÊN';

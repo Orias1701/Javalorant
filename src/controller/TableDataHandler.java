@@ -28,7 +28,7 @@ public class TableDataHandler extends BaseHandler {
             return;
         }
 
-        try (Connection conn = DriverManager.getConnection(ORDERS_DB_URL, DB_USERNAME, DB_PASSWORD);
+        try (Connection conn = DriverManager.getConnection(DATA_DB_URL, DB_USERNAME, DB_PASSWORD);
              PreparedStatement stmt = conn.prepareStatement("SELECT * FROM " + tableName)) {
             ResultSet rs = stmt.executeQuery();
             StringBuilder json = new StringBuilder("[");

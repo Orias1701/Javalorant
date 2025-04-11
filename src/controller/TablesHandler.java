@@ -20,13 +20,14 @@ public class TablesHandler extends BaseHandler {
         }
         if (!authenticate(exchange)) return;
 
-        String schema = extractSchemaFromUrl(ORDERS_DB_URL);
+        String schema = extractSchemaFromUrl(DATA_DB_URL);
 
-        try (Connection conn = DriverManager.getConnection(ORDERS_DB_URL, DB_USERNAME, DB_PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement(
+        try (Connection conn = DriverManager.getConnection(DATA_DB_URL, DB_USERNAME, DB_PASSWORD);
+            PreparedStatement stmt = conn.prepareStatement(
                  "SELECT TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES " +
                  "WHERE TABLE_SCHEMA = ? AND TABLE_TYPE = 'BASE TABLE'")) {
             stmt.setString(1, schema);
+            LOGGER.info("Executing query: " + stmt.toString());
             ResultSet rs = stmt.executeQuery();
             StringBuilder json = new StringBuilder("[");
             boolean first = true;

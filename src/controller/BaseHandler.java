@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public abstract class BaseHandler implements HttpHandler {
     
     protected static final String ACCOUNTS_DB_URL;
-    protected static final String ORDERS_DB_URL;
+    protected static final String DATA_DB_URL;
     protected static final String DB_USERNAME;
     protected static final String DB_PASSWORD;
 
@@ -26,7 +26,7 @@ public abstract class BaseHandler implements HttpHandler {
         try (FileInputStream fis = new FileInputStream("config.properties")) {
             props.load(fis);
             ACCOUNTS_DB_URL = props.getProperty("accounts.db.url");
-            ORDERS_DB_URL = props.getProperty("orders.db.url");
+            DATA_DB_URL = props.getProperty("data.db.url");
             DB_USERNAME = props.getProperty("db.username");
             DB_PASSWORD = props.getProperty("db.password");
         } catch (IOException e) {

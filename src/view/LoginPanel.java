@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import model.ApiClient;
+
 public class LoginPanel extends JPanel {
 
     private final JTextField usernameField;

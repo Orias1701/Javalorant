@@ -1,4 +1,4 @@
-package view;
+package model;
 
 import java.io.IOException;
 import java.net.URI;
@@ -66,6 +66,10 @@ public class ApiClient {
     }
 
     public static List<Map<String, String>> getTableData(String tableName) {
+        if (tableName == null || tableName.isEmpty()) {
+            System.err.println("Error: tableName is null or empty");
+            return new ArrayList<>();
+        }
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL.replace("tables", "table/" + tableName)))
