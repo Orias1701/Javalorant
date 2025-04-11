@@ -14,8 +14,15 @@ public class Style {
     public static final Color NO_CL = new Color(0, 0, 0, 0);
 
     // Font
+    public static final Font HEADER_16 = new Font("Arial", Font.BOLD, 16);
+    public static final Font HEADER_20 = new Font("Arial", Font.BOLD, 20);
+    public static final Font HEADER_24 = new Font("Arial", Font.BOLD, 24);
     public static final Font TITLE = new Font("Segoe UI", Font.BOLD, 20);
     public static final Font BUTTON = new Font("Segoe UI", Font.PLAIN, 14);
+    public static final Font TEXT_N = new Font("Segoe UI", Font.PLAIN, 12);
+    public static final Font TEXT_B = new Font("Segoe UI", Font.BOLD, 12);
+    public static final Font TEXT_I = new Font("Segoe UI", Font.ITALIC, 12);
+    public static final Font TEXT_BI = new Font("Segoe UI", Font.BOLD | Font.ITALIC, 12);
 
     // Size
     public static final Dimension MENU_WIDTH = new Dimension(240, 0);

@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -29,8 +28,8 @@ public class LoginPanel extends JPanel {
         gbc.insets = new Insets(10, 10, 10, 10);
 
         JLabel titleLabel = new JLabel("Đăng Nhập");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.decode("#FF9500"));
+        titleLabel.setFont(Style.HEADER_24);
+        titleLabel.setForeground(Style.MAIN_CL);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -38,7 +37,7 @@ public class LoginPanel extends JPanel {
         add(titleLabel, gbc);
 
         JLabel usernameLabel = new JLabel("Tên người dùng:");
-        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        usernameLabel.setFont(Style.HEADER_16);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -51,7 +50,7 @@ public class LoginPanel extends JPanel {
         add(usernameField, gbc);
 
         JLabel passwordLabel = new JLabel("Mật khẩu:");
-        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        passwordLabel.setFont(Style.HEADER_16);
         gbc.gridx = 0;
         gbc.gridy = 2;
         add(passwordLabel, gbc);
@@ -62,9 +61,9 @@ public class LoginPanel extends JPanel {
         add(passwordField, gbc);
 
         JButton loginButton = new JButton("Đăng nhập");
-        loginButton.setBackground(Color.decode("#FF9500"));
-        loginButton.setForeground(Color.WHITE);
-        loginButton.setFont(new Font("Arial", Font.BOLD, 14));
+        loginButton.setBackground(Style.MAIN_CL);
+        loginButton.setForeground(Style.LIGHT_CL);
+        loginButton.setFont(Style.HEADER_16);
         loginButton.setOpaque(true);
         loginButton.setBorderPainted(false);
         gbc.gridx = 0;
@@ -80,7 +79,7 @@ public class LoginPanel extends JPanel {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
         System.out.println("Login attempt - Username: " + username + ", Password: " + password);
-    
+
         boolean success = ApiClient.login(username, password);
 
         if (success) {
