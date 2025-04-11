@@ -138,14 +138,11 @@ public class ApiClient {
    
     public static void addRow(String tableName, Map<String, Object> data) {
         System.out.println("Adding row to table: " + tableName);
-        System.out.println("Data: " + data);
     }
     public static void updateRow(String tableName, String columnName, Object idValue, Map<String, Object> data) {
         System.out.println("Updating row in table: " + tableName);
-        System.out.println("Column: " + columnName + ", ID: " + idValue);
-        System.out.println("Data: " + data);
     }
     public static void deleteRow(String tableName, String columnName, Object idValue) {
-        System.out.println("Deleting row from table: " + tableName + " where " + columnName + " = " + idValue);
+        System.out.println("Deleting row from table: " + tableName);
     }
 }

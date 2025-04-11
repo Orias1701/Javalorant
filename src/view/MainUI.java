@@ -1,22 +1,20 @@
 package view;
 
+import controller.MainController;
 import controller.SimpleServer;
 import java.awt.BorderLayout;
 import java.awt.Color;
-// import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JFrame;
-// import javax.swing.JLabel;
-
 import view.FooterRegion.FooterPanel;
 import view.HeaderRegion.HeaderPanel;
-// import view.MainRegion.ContentPanel;
+import view.MainRegion.ContentPanel;
 import view.MenuRegion.MenuPanel;
+
 public class MainUI extends JFrame {
 
-    
     public MainUI() {
-        setTitle("Order Management System");
+        setTitle("Hotel Management System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(Style.WIN_WIDTH, 810);
         setMinimumSize(new Dimension(900, 700));
@@ -35,9 +33,21 @@ public class MainUI extends JFrame {
         getContentPane().removeAll();
         setLayout(new BorderLayout());
 
-        add(new HeaderPanel(), BorderLayout.NORTH);
-        add(new FooterPanel(), BorderLayout.SOUTH);
-        add(new MenuPanel(), BorderLayout.WEST);
+        // Khởi tạo các vùng
+        HeaderPanel headerPanel = new HeaderPanel();
+        FooterPanel footerPanel = new FooterPanel();
+        MenuPanel menuPanel = new MenuPanel();
+        ContentPanel contentPanel = new ContentPanel();
+
+        // Thêm vào layout
+        add(headerPanel, BorderLayout.NORTH);
+        add(footerPanel, BorderLayout.SOUTH);
+        add(menuPanel, BorderLayout.WEST);
+        add(contentPanel, BorderLayout.CENTER);
+
+        // Khởi tạo controller
+        new MainController(contentPanel, menuPanel);
+
         revalidate();
         repaint();
     }
