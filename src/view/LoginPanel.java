@@ -84,7 +84,6 @@ public class LoginPanel extends JPanel {
         String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword()).trim();
 
-        // Input validation
         if (username.isEmpty() || password.isEmpty()) {
             LogHandler.logError("Đăng nhập thất bại: Tên người dùng hoặc mật khẩu trống");
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tên người dùng và mật khẩu",
