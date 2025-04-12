@@ -23,7 +23,7 @@ public class MainUI extends JFrame {
 
         getContentPane().setBackground(Color.decode("#FFFFFF"));
 
-        LogHandler.logInfo("MainUI khởi tạo");
+        LogHandler.logInfo("MainUI constructor");
         MainCtrl.startServer();
 
         add(new LoginPanel(this));
@@ -32,7 +32,7 @@ public class MainUI extends JFrame {
     }
 
     public void showMainInterface() {
-        LogHandler.logInfo("Hiển thị giao diện chính");
+        LogHandler.logInfo("Show main interface");
         getContentPane().removeAll();
         setLayout(new BorderLayout());
 

@@ -32,30 +32,33 @@ public class MenuPanel extends JPanel {
     }
 
     public MenuPanel() {
-        // Sử dụng BoxLayout thay vì null layout
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(null);
         setOpaque(false);
         setPreferredSize(new Dimension(240, 720));
         animationTimer = new Timer(0, e -> animateHighlight());
+        int y = 20;
 
         // Home button
-        MenuButton homeButton = createMenuButton("TRANG CHỦ");
+        MenuButton homeButton = createMenuButton("TRANG CHỦ", y);
         homeButton.setFont(Style.MONS_16);    
         homeButton.setForeground(Style.LIGHT_CL);
         homeButton.putClientProperty("tableName", "HOME");
+        homeButton.setBounds(0, y, 240, 60);
+        homeButton.setBorder(Style.BORDER_L20);
         homeButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         activeButton = homeButton;
         currentTableName = "HOME";
-        highlightRect.setLocation(0, 20); // Vị trí ban đầu của highlight
+        highlightRect.setLocation(0, homeButton.getY());
         add(homeButton);
         menuButtons.add(homeButton);
-        add(Box.createRigidArea(new Dimension(0, 10))); // Khoảng cách
 
         LogHandler.logInfo("MenuPanel initialized");
     }
 
     public void refreshTableList() {
-        // Xóa các nút bảng cũ (nếu có), giữ lại nút TRANG CHỦ
+        int y = 80; // Bắt đầu từ vị trí sau nút "TRANG CHỦ"
+
+        // Xóa các nút bảng cũ (nếu có), giữ lại nút "TRANG CHỦ"
         for (int i = menuButtons.size() - 1; i >= 0; i--) {
             MenuButton button = menuButtons.get(i);
             if (!"HOME".equals(button.getClientProperty("tableName"))) {
@@ -71,29 +74,30 @@ public class MenuPanel extends JPanel {
             return;
         }
 
+        // Tạo các nút cho từng bảng
         for (Map.Entry<String, String> entry : tableInfo.entrySet()) {
             String tableName = entry.getKey();
             String tableComment = entry.getValue();
-            MenuButton button = createMenuButton(tableComment);
+            MenuButton button = createMenuButton(tableComment, y);
             button.putClientProperty("tableName", tableName);
             add(button);
             menuButtons.add(button);
-            add(Box.createRigidArea(new Dimension(0, 10))); // Khoảng cách giữa các nút
+            y += 60;
         }
 
-        revalidate();
         repaint();
     }
 
-    // Tạo một menu button
-    private MenuButton createMenuButton(String text) {
+    // creates a menu button
+    private MenuButton createMenuButton(String text, int y) {
         MenuButton button = new MenuButton(text);
-        button.setMaximumSize(new Dimension(240, 60));
+        button.setBounds(0, y, 240, 60);
         button.setFont(Style.MONS_16);    
         button.setForeground(Style.GRAY_CL);
         button.setBackground(Style.NO_CL);
-        button.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        button.setBorder(BorderFactory.createEmptyBorder());
         button.setHorizontalAlignment(SwingConstants.LEFT);
+        button.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         button.addActionListener(e -> {
             moveHighlightTo(button);
         });
@@ -119,7 +123,7 @@ public class MenuPanel extends JPanel {
         return button;
     }
 
-    // Highlight nút được chọn
+    // highlight the selected button
     private void moveHighlightTo(MenuButton targetButton) {
         if (activeButton != null) {
             activeButton.setActive(false);
@@ -140,7 +144,7 @@ public class MenuPanel extends JPanel {
         animationTimer.start();
     }
 
-    // Hiệu ứng di chuyển highlight
+    // highlight animates
     private void animateHighlight() {
         if (activeButton == null) return;
         int targetY = activeButton.getY();
@@ -156,7 +160,7 @@ public class MenuPanel extends JPanel {
         repaint();
     }
 
-    // Vẽ nền và highlight
+    // set the current table name
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
