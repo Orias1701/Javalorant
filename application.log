@@ -1,8 +1,24 @@
-[05:08:04, 13/04/2025] INFO: Start
-[05:08:04, 13/04/2025] INFO: MainUI constructor
-[05:08:04, 13/04/2025] INFO: LoginPanel initialized
-[05:08:04, 13/04/2025] INFO: Server started on port 8080
-[05:08:07, 13/04/2025] INFO: Thử đăng nhập - Tên người dùng: 1
-[05:08:08, 13/04/2025] INFO: Login response status: 401
-[05:08:08, 13/04/2025] INFO: Login response body: Unauthorized
-[05:08:08, 13/04/2025] ERROR: Đăng nhập thất bại cho người dùng: 1
+[06:29:56, 13/04/2025] INFO: Start
+[06:29:56, 13/04/2025] INFO: MainUI constructor
+[06:29:57, 13/04/2025] INFO: LoginPanel initialized
+[06:29:57, 13/04/2025] INFO: Server started on port 8080
+[06:29:58, 13/04/2025] INFO: Thử đăng nhập - Tên người dùng: 1
+[06:29:58, 13/04/2025] INFO: Login response status: 200
+[06:29:58, 13/04/2025] INFO: Login response body: Login successful
+[06:29:58, 13/04/2025] INFO: Đăng nhập thành công cho người dùng: 1
+[06:29:58, 13/04/2025] INFO: TableDataOperationsClient được khởi tạo với authHeader
+[06:29:58, 13/04/2025] INFO: Show main interface
+[06:29:58, 13/04/2025] INFO: MenuPanel initialized
+[06:29:58, 13/04/2025] INFO: Executing query: com.mysql.cj.jdbc.ClientPreparedStatement: SELECT TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'ql_khachsan' AND TABLE_TYPE = 'BASE TABLE'
+[06:29:58, 13/04/2025] INFO: Table info status: 200
+[06:29:58, 13/04/2025] INFO: Table info body: [{"name":"chitietphieusddv","comment":"CHI TIẾT"},{"name":"dichvu","comment":"DỊCH VỤ"},{"name":"hoadon","comment":"HÓA ĐƠN"},{"name":"khachhang","comment":"KHÁCH HÀNG"},{"name":"loaiphong","comment":"LOẠI PHÒNG"},{"name":"nhanvien","comment":"NHÂN VIÊN"},{"name":"phieudatphong","comment":"PHIẾU ĐẶT PHÒNG"},{"name":"phieusddv","comment":"PHIẾU DỊCH VỤ"},{"name":"phong","comment":"QUẢN LÝ PHÒNG"}]
+[06:29:59, 13/04/2025] INFO: Tên bảng: khachhang, Chú thích: KHÁCH HÀNG
+[06:29:59, 13/04/2025] INFO: Kiểm tra bảng khachhang: tồn tại
+[06:29:59, 13/04/2025] INFO: Truy vấn khóa chính cho khachhang: MaKhachHang
+[06:29:59, 13/04/2025] INFO: Khóa chính Handler: MaKhachHang
+[06:29:59, 13/04/2025] INFO: Table data status: 200
+[06:29:59, 13/04/2025] INFO: Table data body: {"keyColumn":"MaKhachHang","columns":[{"name":"Sdt","comment":"Số điện thoại"},{"name":"TinhTrangKhach","comment":"Tình trạng"},{"name":"MaKhachHang","comment":"Mã khách hàng"},{"name":"TenKhachHang","comment":"Tên khách hàng"}],"data":[{"MaKhachHang":"KH001","TenKhachHang":"Nguyen Van B","Sdt":"0987654325","TinhTrangKhach":"Đang ở"},{"MaKhachHang":"KH002","TenKhachHang":"Le Thi B","Sdt":"0977654321","TinhTrangKhach":"Đã rời đi"},{"MaKhachHang":"KH003","TenKhachHang":"Tran Van C","Sdt":"0967654321","TinhTrangKhach":"Hủy đặt phòng"}]}
+[06:29:59, 13/04/2025] INFO: Khóa chính API: MaKhachHang
+[06:29:59, 13/04/2025] INFO: Khóa chính TablePanel: MaKhachHang
+[06:29:59, 13/04/2025] INFO: Tên bảng TablePanel: khachhang
+[06:29:59, 13/04/2025] INFO: Chú thích bảng TablePanel: KHÁCH HÀNG
