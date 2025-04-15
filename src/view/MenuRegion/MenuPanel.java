@@ -17,7 +17,7 @@ public class MenuPanel extends JPanel {
     private Rectangle highlightRect = new Rectangle(0, 0, 240, 60);
     private final Timer animationTimer;
     private TableSelectionListener tableSelectionListener;
-    private Runnable homeSelectionListener; // Thêm callback cho nút TRANG CHỦ
+    private Runnable homeSelectionListener;
 
     public interface TableSelectionListener {
         void onTableSelected(String tableName, String tableComment);
@@ -78,19 +78,21 @@ public class MenuPanel extends JPanel {
         for (Map.Entry<String, String> entry : tableInfo.entrySet()) {
             String tableName = entry.getKey();
             String tableComment = entry.getValue();
+            // MenuButton button = createMenuButton(tableComment.toUpperCase(), y);
             MenuButton button = createMenuButton(tableComment, y);
             button.putClientProperty("tableName", tableName);
             add(button);
             menuButtons.add(button);
-            y += 60;
+            y += 40;
         }
 
+        revalidate();
         repaint();
     }
 
     private MenuButton createMenuButton(String text, int y) {
         MenuButton button = new MenuButton(text);
-        button.setBounds(0, y, 240, 60);
+        button.setBounds(0, y, 240, button.isActive() ? 60 : 40);
         button.setFont(Style.MONS_16);
         button.setForeground(Style.GRAY_CL);
         button.setBackground(Style.NO_CL);
@@ -121,17 +123,21 @@ public class MenuPanel extends JPanel {
 
         return button;
     }
-
+    
     private void moveHighlightTo(MenuButton targetButton) {
         if (activeButton != null) {
             activeButton.setActive(false);
+            activeButton.setBounds(activeButton.getX(), activeButton.getY(), 240, 40);
         }
 
         activeButton = targetButton;
         activeButton.setActive(true);
+        activeButton.setBounds(activeButton.getX(), activeButton.getY(), 240, 60);
         currentTableName = (String) activeButton.getClientProperty("tableName");
         String currentTableComment = activeButton.getText();
         LogHandler.logInfo("Tên bảng: " + currentTableName + ", Chú thích: " + currentTableComment);
+
+        updateButtonPositions();
 
         if ("HOME".equals(currentTableName)) {
             if (homeSelectionListener != null) {
@@ -144,17 +150,35 @@ public class MenuPanel extends JPanel {
         animationTimer.start();
     }
 
+    private void updateButtonPositions() {
+        int y = 80;
+        for (MenuButton button : menuButtons) {
+            if (!"HOME".equals(button.getClientProperty("tableName"))) {
+                button.setBounds(0, y, 240, button.isActive() ? 60 : 40);
+                y += button.isActive() ? 60 : 40;
+            }
+        }
+        revalidate();
+    }
+
     private void animateHighlight() {
         if (activeButton == null) return;
         int targetY = activeButton.getY();
+        int targetHeight = activeButton.getHeight();
         int dy = targetY - highlightRect.y;
-        if (Math.abs(dy) <= 1) {
+        int dh = targetHeight - highlightRect.height;
+
+        if (Math.abs(dy) <= 1 && Math.abs(dh) <= 1) {
             highlightRect.y = targetY;
+            highlightRect.height = targetHeight;
             animationTimer.stop();
         } else {
-            int step = (int)(dy * 0.16);
-            if (step == 0) step = (dy > 0) ? 1 : -1;
-            highlightRect.y += step;
+            int stepY = (int)(dy * 0.16);
+            int stepH = (int)(dh * 0.16);
+            if (stepY == 0) stepY = (dy > 0) ? 1 : -1;
+            if (stepH == 0) stepH = (dh > 0) ? 1 : -1;
+            highlightRect.y += stepY;
+            highlightRect.height += stepH;
         }
         repaint();
     }
