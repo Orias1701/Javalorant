@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.*;
+// import javax.swing.plaf.basic.BasicScrollBarUI;
 
 import controller.LogHandler;
 import model.ApiClient;
@@ -38,9 +39,19 @@ public class MenuPanel extends JPanel {
     public MenuPanel() {
         setLayout(null);
         setOpaque(false);
-        setPreferredSize(new Dimension(240, 720));
+        setPreferredSize(new Dimension(240, 660));
         animationTimer = new Timer(0, e -> animateHighlight());
         int y = 20;
+        
+        // Create a JScrollPane to contain the menu
+        JScrollPane MenuScroll = new JScrollPane(this);
+        MenuScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        MenuScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        MenuScroll.setBorder(null);
+        MenuScroll.getViewport().setOpaque(false);
+        MenuScroll.setOpaque(false);
+        MenuScroll.getVerticalScrollBar().setUnitIncrement(20);
+        MenuScroll.getHorizontalScrollBar().setEnabled(false);
 
         // Home button
         MenuButton homeButton = createMenuButton("TRANG CHỦ", y);

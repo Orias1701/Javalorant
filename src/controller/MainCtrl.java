@@ -77,7 +77,6 @@ public class MainCtrl {
                 server.createContext("/api/login", new LoginHandler());
                 server.createContext("/api/tables", new TablesHandler());
                 server.createContext("/api/table/", new TableDataHandler());
-                // server.createContext("/api/table/", new ColumnEnumHandler());
                 server.setExecutor(null);
                 server.start();
                 LogHandler.logInfo("Server started on port 8080");
